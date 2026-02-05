@@ -3,45 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telangana PHC Dashboard</title>
+    <title>Telangana District Dashboard</title>
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="s1.css">
 </head>
 <body>
 
-    <div id="controls">
-        <h3>Telangana Dashboard</h3>
-        <p>1. Upload PHC_DATA_TS.csv:</p>
-        <input type="file" id="csvFile" accept=".csv" />
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Telangana<br>Dashboard</h2>
+        </div>
         
-        <p>2. Filter Districts:</p>
-        <select id="districtSelect" multiple>
-            <option value="all" selected>All Districts</option>
-        </select>
-        <p><small>Hold Ctrl/Cmd to select multiple</small></p>
-    </div>
+        <div class="mode-switch">
+            <button class="active" onclick="switchMode('entry')">Data Entry</button>
+            <button onclick="switchMode('map')">Map View</button>
+        </div>
 
-    <div id="phcTableContainer" class="draggable">
-        <div id="dragHandle">District PHC Data (Drag Me)</div>
-        <div class="table-wrapper">
-            <table id="phcTable">
-                <thead>
-                    <tr>
-                        <th>Mandal</th>
-                        <th>PHC Name</th>
-                    </tr>
-                </thead>
-                <tbody id="phcTableBody">
-                    </tbody>
-            </table>
+        <hr>
+
+        <div id="entry-controls" class="control-group">
+            <h3><span class="material-icons">edit</span> Data Entry</h3>
+            <label>Select Module</label>
+            <select id="entryCategory" onchange="initEntryForm()">
+                <option value="" disabled selected>Select Category (1-10)</option>
+            </select>
+            <button class="btn-primary" onclick="showEntryForm()">+ Add New Record</button>
+            <button class="btn-secondary" onclick="window.location.href='del.html'">Add Data</button>
+        </div>
+
+        <div id="map-controls" class="control-group" style="display:none;">
+            <h3><span class="material-icons">map</span> Visualization</h3>
+            
+            <label>1. Select Module</label>
+            <select id="mapCategory" onchange="loadMapData()">
+                <option value="" disabled selected>Select Category</option>
+            </select>
+
+            <label>2. Filter Data Field</label>
+            <select id="mapSubCategory" onchange="filterTableData()">
+                <option value="all">View Complete Data</option>
+            </select>
+
+            <button class="btn-secondary" onclick="showTable()">
+                <span class="material-icons">table_view</span> Open Data Table
+            </button>
         </div>
     </div>
 
-    <div id="map"></div>
+    <div class="main-content">
+        
+        <div id="entry-screen">
+            <div id="form-card" class="card" style="display:none;">
+                <h3 id="form-title">New Entry</h3>
+                <form id="dataForm" onsubmit="handleFormSubmit(event)">
+                    <input type="hidden" name="category" id="hiddenCategory">
+                    <input type="hidden" name="rowId" id="hiddenRowId">
+                    <div id="form-fields" class="form-grid"></div>
+                    <div class="form-actions">
+                        <button type="button" onclick="hideEntryForm()" class="btn-cancel">Cancel</button>
+                        <button type="submit" class="btn-save">Save Record</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="entry-list" class="card">
+                <h4><span class="material-icons">list</span> Existing Records</h4>
+                <div id="entry-table-wrapper" class="table-scroll-container">
+                    <p class="placeholder-text">Select a category to view or edit data.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="map-screen" style="display:none;">
+            <div id="map"></div>
+            
+            <div id="floating-table" class="draggable-panel">
+                <div class="panel-header" id="drag-handle">
+                    <span id="table-title">Data Viewer</span>
+                    <span class="close-btn" onclick="closeTable()">×</span>
+                </div>
+                <div class="table-scroll-container">
+                    <table id="map-data-table">
+                        <thead><tr id="table-head"></tr></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="loader">
+            <div class="spinner"></div>
+            <span>Processing...</span>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+    <script src="t2.js"></script>
 </body>
 </html>
