@@ -1,0 +1,32 @@
+body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; }
+#map { height: 100vh; width: 100%; z-index: 1; }
+
+#controls {
+    position: absolute; top: 20px; left: 20px; z-index: 1000;
+    background: rgba(255, 255, 255, 0.9); padding: 15px;
+    border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); width: 250px;
+}
+
+select { width: 100%; height: 150px; margin-top: 10px; border: 1px solid #ccc; }
+
+/* Draggable Table Styles */
+#phcTableContainer {
+    position: absolute; bottom: 20px; right: 20px; z-index: 1000;
+    background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    width: 350px; display: none; overflow: hidden;
+}
+
+#dragHandle {
+    background: #2c3e50; color: white; padding: 10px; cursor: move;
+    font-weight: bold; text-align: center; font-size: 14px;
+}
+
+.table-wrapper {
+    max-height: 185px; /* Fixed height for 5 rows + header */
+    overflow-y: auto;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 8px; border: 1px solid #eee; text-align: left; }
+th { background: #f8f9fa; position: sticky; top: 0; z-index: 2; }
+tr:hover { background-color: #f1f1f1; cursor: pointer; }

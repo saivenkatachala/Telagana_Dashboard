@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telangana District Dashboard | Government of Telangana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* ===== GOVERNMENT STYLE THEME ===== */
+    :root {
+      --primary-blue: #0d47a1;
+      --secondary-blue: #1565c0;
+      --accent-blue: #1976d2;
+      --light-blue: #e3f2fd;
+      --dark-blue: #0a2e5c;
+      --white: #ffffff;
+      --off-white: #f8f9fa;
+      --gray-light: #e9ecef;
+      --gray-medium: #6c757d;
+      --gray-dark: #343a40;
+      --success: #2e7d32;
+      --warning: #f57c00;
+      --danger: #c62828;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --box-shadow-heavy: 0 6px 20px rgba(0, 0, 0, 0.12);
+      --header-gradient: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      --card-gradient: linear-gradient(to bottom, var(--white) 0%, var(--off-white) 100%);
+    }
+
+    /* ===== BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--off-white);
+      color: var(--gray-dark);
+      line-height: 1.6;
+      font-weight: 400;
+      min-height: 100vh;
+    }
+
+    /* ===== GOVERNMENT HEADER ===== */
+    .government-header {
+      background: var(--header-gradient);
+      color: var(--white);
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      position: relative;
+      border-bottom: 4px solid #ffcc00;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .gov-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .gov-logo-icon {
+      background: var(--white);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-blue);
+      font-size: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .gov-title h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+    }
+
+    .gov-title p {
+      font-size: 14px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .gov-badge {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container {
+      max-width: 1400px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 25px;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 25px 20px;
+      height: fit-content;
+      border-top: 4px solid var(--primary-blue);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .sidebar-header i {
+      color: var(--primary-blue);
+      font-size: 20px;
+    }
+
+    .sidebar-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark-blue);
+    }
+
+    .module-list {
+      list-style: none;
+    }
+
+    .module-item {
+      margin-bottom: 8px;
+    }
+
+    .module-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 15px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 15px;
+      color: var(--gray-dark);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .module-btn:hover {
+      background: var(--light-blue);
+      color: var(--primary-blue);
+    }
+
+    .module-btn.active {
+      background: var(--light-blue);
+      color: var(--primary-blue);
+      font-weight: 600;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .module-number {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: var(--gray-light);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-medium);
+    }
+
+    .module-btn.active .module-number {
+      background: var(--primary-blue);
+      color: var(--white);
+    }
+
+    .module-name {
+      flex-grow: 1;
+    }
+
+    .sidebar-footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-light);
+      font-size: 13px;
+      color: var(--gray-medium);
+      text-align: center;
+    }
+
+    /* ===== DASHBOARD CONTENT ===== */
+    .dashboard-content {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    /* ===== DASHBOARD HEADER ===== */
+    .dashboard-header {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 20px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 4px solid var(--primary-blue);
+    }
+
+    .dashboard-title h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark-blue);
+      margin-bottom: 5px;
+    }
+
+    .dashboard-title p {
+      font-size: 14px;
+      color: var(--gray-medium);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .gov-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary-blue);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--secondary-blue);
+      box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+    }
+
+    .btn-secondary {
+      background: var(--off-white);
+      color: var(--gray-dark);
+      border: 1px solid var(--gray-light);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-light);
+    }
+
+    /* ===== CONFIG WARNING ===== */
+    .config-warning {
+      background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+      border-left: 5px solid #ff9800;
+      border-radius: var(--border-radius);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .warning-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .warning-header i {
+      color: #f57c00;
+      font-size: 20px;
+    }
+
+    .warning-header h4 {
+      font-size: 16px;
+      color: #5d4037;
+      font-weight: 600;
+    }
+
+    .config-warning p {
+      font-size: 14px;
+      color: #5d4037;
+    }
+
+    /* ===== DATA FORM ===== */
+    .data-form-container {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      display: none;
+      border-top: 4px solid var(--accent-blue);
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .form-header h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-header h3 i {
+      color: var(--primary-blue);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--gray-dark);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .form-group label i {
+      color: var(--primary-blue);
+      font-size: 16px;
+    }
+
+    .form-group input, .form-group select {
+      padding: 12px 15px;
+      border: 1px solid var(--gray-light);
+      border-radius: 6px;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      background: var(--white);
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+    }
+
+    .section-header {
+      grid-column: 1 / -1;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-top: 15px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light-blue);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-light);
+    }
+
+    /* ===== DATA TABLE ===== */
+    .data-table-container {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      display: none;
+      border-top: 4px solid var(--success);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .table-header h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--dark-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .table-header h3 i {
+      color: var(--success);
+    }
+
+    .records-count {
+      background: var(--light-blue);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary-blue);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    .data-table thead {
+      background: var(--light-blue);
+    }
+
+    .data-table th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--dark-blue);
+      border-bottom: 2px solid var(--primary-blue);
+    }
+
+    .data-table td {
+      padding: 15px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .data-table tbody tr:hover {
+      background: rgba(13, 71, 161, 0.03);
+    }
+
+    .action-cell {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--white);
+    }
+
+    .edit-btn {
+      background: var(--accent-blue);
+    }
+
+    .edit-btn:hover {
+      background: var(--secondary-blue);
+      transform: translateY(-2px);
+    }
+
+    .delete-btn {
+      background: var(--danger);
+    }
+
+    .delete-btn:hover {
+      background: #b71c1c;
+      transform: translateY(-2px);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray-medium);
+      font-size: 16px;
+    }
+
+    .no-data i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: var(--gray-light);
+    }
+
+    /* ===== LOADER ===== */
+    .loader-container {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .gov-loader {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--light-blue);
+      border-top: 4px solid var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    .loader-container p {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--primary-blue);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ===== FOOTER ===== */
+    .government-footer {
+      background: var(--dark-blue);
+      color: var(--white);
+      padding: 25px 0;
+      margin-top: 50px;
+      border-top: 4px solid #ffcc00;
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 14px;
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    .copyright {
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1200px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .action-buttons {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .gov-btn {
+        flex: 1;
+        justify-content: center;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .data-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .footer-container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .gov-title h1 {
+        font-size: 20px;
+      }
+    }
+
+    /* ===== TRANSPORT FORM SPECIFIC ===== */
+    #road-f, #rail-f {
+      display: none;
+    }
+    
+    #road-f.visible, #rail-f.visible {
+      display: contents;
+    }
+    
+    /* ===== UTILITY CLASSES ===== */
+    .hidden {
+      display: none !important;
+    }
+    
+    .visible {
+      display: block !important;
+    }
+    
+    .material-icons {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Government Header -->
+  <header class="government-header">
+    <div class="header-container">
+      <div class="gov-logo">
+        <div class="gov-logo-icon">
+          <i class="fas fa-landmark"></i>
+        </div>
+        <div class="gov-title">
+          <h1>Telangana District Dashboard</h1>
+          <p>Government of Telangana | Data Management System</p>
+        </div>
+      </div>
+      <div class="gov-badge">
+        <i class="fas fa-shield-alt"></i>
+        Official Government Portal
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <div class="main-container">
+    
+    <!-- Sidebar with Modules -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-layer-group"></i>
+        <h3>Data Modules</h3>
+      </div>
+      <ul class="module-list">
+        <li class="module-item">
+          <button class="module-btn active" data-module="Geographical Area">
+            <span class="module-number">1</span>
+            <span class="module-name">Geographical Area</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Population Data">
+            <span class="module-number">2</span>
+            <span class="module-name">Population Data</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Literacy Rate">
+            <span class="module-number">3</span>
+            <span class="module-name">Literacy Rate</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Working Population">
+            <span class="module-number">4</span>
+            <span class="module-name">Working Population</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Occupation">
+            <span class="module-number">5</span>
+            <span class="module-name">Occupation</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Health Infrastructure">
+            <span class="module-number">6</span>
+            <span class="module-name">Health Infrastructure</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Education Sector">
+            <span class="module-number">7</span>
+            <span class="module-name">Education Sector</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Aasara Pensions">
+            <span class="module-number">8</span>
+            <span class="module-name">Aasara Pensions</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Road Infrastructure">
+            <span class="module-number">9</span>
+            <span class="module-name">Road Infrastructure</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+        <li class="module-item">
+          <button class="module-btn" data-module="Transport">
+            <span class="module-number">10</span>
+            <span class="module-name">Transport</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <i class="fas fa-lock"></i> Secure Government System
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      
+      <!-- Configuration Warning -->
+      <div id="config-warning" class="config-warning" style="display:none;">
+        <div class="warning-header">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h4>Configuration Required</h4>
+        </div>
+        <p>Please open the code in VS Code and set the <b>SCRIPT_URL</b> variable in the JavaScript section at the bottom of the file to connect to your Google Sheets backend.</p>
+      </div>
+
+      <!-- Dashboard Header -->
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2 id="module-title">Geographical Area Data</h2>
+          <p id="module-description">Manage geographical information for Telangana districts</p>
+        </div>
+        <div class="action-buttons">
+          <button class="gov-btn btn-secondary" onclick="loadData()">
+            <i class="fas fa-table"></i> View Data
+          </button>
+          <button class="gov-btn btn-primary" onclick="showForm()">
+            <i class="fas fa-plus-circle"></i> Add Record
+          </button>
+        </div>
+      </div>
+
+      <!-- Loader -->
+      <div id="loader" class="loader-container">
+        <div class="gov-loader"></div>
+        <p>Processing your request...</p>
+      </div>
+
+      <!-- Data Form Section -->
+      <div id="form-section" class="data-form-container">
+        <div class="form-header">
+          <h3><i class="fas fa-edit"></i> <span id="form-title">Enter Geographical Area Data</span></h3>
+          <button class="gov-btn btn-secondary" onclick="resetUI()">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+        </div>
+        <form id="dynamicForm" onsubmit="handleFormSubmit(event)">
+          <input type="hidden" name="category" id="hiddenCategory">
+          <input type="hidden" name="rowId" id="hiddenRowId">
+          <div id="fieldsContainer" class="form-grid"></div>
+          <div class="form-actions">
+            <button type="reset" class="gov-btn btn-secondary" onclick="resetUI()">
+              <i class="fas fa-redo"></i> Reset
+            </button>
+            <button type="submit" class="gov-btn btn-primary">
+              <i class="fas fa-save"></i> Save Data
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Data Table Section -->
+      <div id="data-section" class="data-table-container">
+        <div class="table-header">
+          <h3><i class="fas fa-database"></i> <span id="table-title">Geographical Area Records</span></h3>
+          <div class="records-count">
+            <i class="fas fa-file-alt"></i> <span id="record-count">0</span> Records
+          </div>
+        </div>
+        <div id="tableContainer">
+          <!-- Table will be dynamically inserted here -->
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Government Footer -->
+  <footer class="government-footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <i class="fas fa-landmark"></i> Government of Telangana
+      </div>
+      <div class="footer-links">
+        <a href="#"><i class="fas fa-user-shield"></i> Privacy Policy</a>
+        <a href="#"><i class="fas fa-file-contract"></i> Terms of Use</a>
+        <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+      </div>
+      <div class="copyright">
+        &copy; 2023 Government of Telangana. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== CONSTANTS AND CONFIGURATION =====
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqj20NdlTeYYM4HIjyWdu0M8zcJWw5HiWtBFNPdhWD-Tcg2Lk_e88YKJhHfUH_Ak-B5A/exec";
+    
+    // Check if URL is not configured
+    if (SCRIPT_URL === "PASTE_YOUR_WEB_APP_URL_HERE" || SCRIPT_URL === "") {
+      document.getElementById('config-warning').style.display = 'block';
+    }
+
+    // Districts of Telangana
+    const districts = [
+      "Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", 
+      "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", 
+      "Khammam", "Kumuram Bheem", "Mahabubabad", "Mahabubnagar", "Mancherial", 
+      "Medak", "Medchal-Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", 
+      "Narayanpet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", 
+      "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", 
+      "Wanaparthy", "Warangal", "Hanamkonda", "Yadadri Bhuvanagiri"
+    ];
+
+    // Module schema for form generation
+    const formSchema = {
+      "Geographical Area": ["Revenue Villages", "Revenue Mandals", "Revenue Divisions", "Gram Panchayats"],
+      "Population Data": ["Total Population", "Males", "Females", "Rural", "Urban"],
+      "Literacy Rate": ["Total Literacy", "Male Literacy", "Female Literacy"],
+      "Working Population": ["Total Workers", "Male Workers", "Female Workers"],
+      "Health Infrastructure": ["Health Sub Centers", "Primary Health Centers", "Area Hospitals", "District Hospitals", "Teaching Hospitals"],
+      "Education Sector": ["Primary Schools", "Upper Primary Schools", "High Schools", "Total Schools", "Model Schools", "KGBV Schools", "Junior Colleges", "Degree Colleges", "Engineering Colleges", "Pharmacy Colleges", "MBA Colleges", "MCA Colleges", "B.Ed Colleges", "Law Colleges"],
+      "Aasara Pensions": ["Old Age", "Disabled", "Widow", "Weavers", "Toddy Tappers", "ART Patients"],
+      "Road Infrastructure": ["State Highways", "Major District Roads", "Rural Roads", "Total Roads"]
+    };
+    
+    const occupationTypes = ["Cultivators", "Agricultural Labourers", "Household Industries", "Other Workers", "Non Working"];
+
+    // Module descriptions
+    const moduleDescriptions = {
+      "Geographical Area": "Manage geographical information for Telangana districts",
+      "Population Data": "View and update population statistics across districts",
+      "Literacy Rate": "Literacy rate data for Telangana districts",
+      "Working Population": "Data on working population across districts",
+      "Occupation": "Occupation distribution data for Telangana",
+      "Health Infrastructure": "Healthcare facilities and infrastructure data",
+      "Education Sector": "Educational institutions and infrastructure",
+      "Aasara Pensions": "Social welfare pension scheme data",
+      "Road Infrastructure": "Road network and infrastructure details",
+      "Transport": "Transportation facilities and services"
+    };
+
+    // ===== UI MANAGEMENT FUNCTIONS =====
+    function resetUI() {
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('data-section').style.display = 'none';
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('dynamicForm').reset();
+      document.getElementById('hiddenRowId').value = "";
+      
+      // Reset transport fields visibility
+      document.getElementById('road-f')?.classList.remove('visible');
+      document.getElementById('rail-f')?.classList.remove('visible');
+    }
+
+    // Initialize module buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      const moduleButtons = document.querySelectorAll('.module-btn');
+      
+      moduleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          moduleButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Update module select
+          const moduleName = this.getAttribute('data-module');
+          document.getElementById('moduleSelect').value = moduleName;
+          
+          // Update dashboard title
+          updateModuleTitle(moduleName);
+          
+          // Reset UI
+          resetUI();
+        });
+      });
+      
+      // Initialize with first module
+      updateModuleTitle("Geographical Area");
+    });
+
+    function updateModuleTitle(moduleName) {
+      document.getElementById('module-title').textContent = moduleName + " Data";
+      document.getElementById('module-description').textContent = moduleDescriptions[moduleName] || "Manage data for Telangana districts";
+      document.getElementById('form-title').textContent = "Enter " + moduleName + " Data";
+      document.getElementById('table-title').textContent = moduleName + " Records";
+    }
+
+    function showForm() {
+      const category = document.querySelector('.module-btn.active').getAttribute('data-module');
+      if (!category) return alert("Please select a module first.");
+      
+      resetUI();
+      document.getElementById('form-section').style.display = 'block';
+      document.getElementById('hiddenCategory').value = category;
+      document.getElementById('form-title').textContent = "Enter " + category + " Data";
+      generateFields(category);
+    }
+
+    function generateFields(category) {
+      const container = document.getElementById('fieldsContainer');
+      let html = `
+        <div class="form-group">
+          <label><i class="fas fa-map-marker-alt"></i> District</label>
+          <select name="District" required>
+            <option value="">Select District</option>
+            ${districts.map(d => `<option value="${d}">${d}</option>`).join('')}
+          </select>
+        </div>
+      `;
+
+      if (formSchema[category]) {
+        formSchema[category].forEach(field => {
+          html += `
+            <div class="form-group">
+              <label><i class="fas fa-pen"></i> ${field}</label>
+              <input type="number" step="any" name="${field.replace(/[^a-zA-Z0-9]/g, "")}" placeholder="Enter ${field}">
+            </div>
+          `;
+        });
+      } else if (category === "Occupation") {
+        html += `<div class="section-header">Occupation Distribution</div>`;
+        occupationTypes.forEach(type => {
+          html += `
+            <div class="section-header">${type}</div>
+            <div class="form-group">
+              <label><i class="fas fa-users"></i> ${type} Total</label>
+              <input type="number" step="any" name="${type.replace(/[^a-zA-Z0-9]/g, "")}Total" placeholder="Total">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-male"></i> ${type} Male</label>
+              <input type="number" step="any" name="${type.replace(/[^a-zA-Z0-9]/g, "")}Male" placeholder="Male">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-female"></i> ${type} Female</label>
+              <input type="number" step="any" name="${type.replace(/[^a-zA-Z0-9]/g, "")}Female" placeholder="Female">
+            </div>
+          `;
+        });
+      } else if (category === "Transport") {
+        html += `
+          <div class="section-header">Transport Type</div>
+          <div class="form-group">
+            <label><i class="fas fa-bus"></i> Transport Type</label>
+            <select name="TransportType" onchange="toggleTransportFields(this.value)" required>
+              <option value="">Select Type</option>
+              <option value="Road">Road Transport</option>
+              <option value="Railways">Railways</option>
+            </select>
+          </div>
+          <div id="road-f">
+            <div class="section-header">Road Transport Details</div>
+            <div class="form-group">
+              <label><i class="fas fa-warehouse"></i> RTC Depots</label>
+              <input type="number" step="any" name="RTCDepots" placeholder="Number of depots">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-bus"></i> RTC Fleet</label>
+              <input type="number" step="any" name="RTCFleet" placeholder="Number of vehicles">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-road"></i> Daily Route Length (km)</label>
+              <input type="number" step="any" name="DailyLength" placeholder="Length in km">
+            </div>
+          </div>
+          <div id="rail-f">
+            <div class="section-header">Railway Details</div>
+            <div class="form-group">
+              <label><i class="fas fa-train"></i> Railway Stations</label>
+              <input type="number" step="any" name="Stations" placeholder="Number of stations">
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-train"></i> Track Length (km)</label>
+              <input type="number" step="any" name="TrackLength" placeholder="Length in km">
+            </div>
+          </div>
+        `;
+      }
+      
+      container.innerHTML = html;
+      
+      // Initialize transport fields as hidden
+      if (category === "Transport") {
+        document.getElementById('road-f').style.display = 'none';
+        document.getElementById('rail-f').style.display = 'none';
+      }
+    }
+
+    function toggleTransportFields(type) {
+      const roadFields = document.getElementById('road-f');
+      const railFields = document.getElementById('rail-f');
+      
+      if (type === 'Road') {
+        roadFields.style.display = 'block';
+        railFields.style.display = 'none';
+      } else if (type === 'Railways') {
+        roadFields.style.display = 'none';
+        railFields.style.display = 'block';
+      } else {
+        roadFields.style.display = 'none';
+        railFields.style.display = 'none';
+      }
+    }
+
+    // ===== API HANDLERS =====
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      document.getElementById('loader').style.display = 'block';
+      
+      const formData = {};
+      new FormData(e.target).forEach((value, key) => {
+        if (value !== "") formData[key] = value;
+      });
+
+      const payload = {
+        action: "save",
+        category: document.getElementById('hiddenCategory').value,
+        rowId: document.getElementById('hiddenRowId').value,
+        formData: formData
+      };
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+        
+        const data = await response.json();
+        document.getElementById('loader').style.display = 'none';
+        
+        if (data.success) {
+          alert("Data saved successfully!");
+          resetUI();
+          loadData();
+        } else {
+          alert("Error: " + (data.message || "Failed to save data"));
+        }
+      } catch (error) {
+        document.getElementById('loader').style.display = 'none';
+        alert("Network error: " + error.message);
+      }
+    }
+
+    async function loadData() {
+      const category = document.querySelector('.module-btn.active').getAttribute('data-module');
+      if (!category) return alert("Please select a module first.");
+      
+      resetUI();
+      document.getElementById('data-section').style.display = 'block';
+      document.getElementById('loader').style.display = 'block';
+
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=read&category=${encodeURIComponent(category)}`);
+        const data = await response.json();
+        
+        document.getElementById('loader').style.display = 'none';
+        const tableContainer = document.getElementById('tableContainer');
+        
+        if (!data.length || data.error) {
+          tableContainer.innerHTML = `
+            <div class="no-data">
+              <i class="fas fa-database"></i>
+              <h3>No Data Available</h3>
+              <p>No records found for ${category}. Click "Add Record" to create new entries.</p>
+            </div>
+          `;
+          document.getElementById('record-count').textContent = "0";
+          return;
+        }
+        
+        document.getElementById('record-count').textContent = data.length;
+        
+        // Create table
+        let html = `<table class="data-table">`;
+        
+        // Table headers
+        const headers = Object.keys(data[0]).filter(key => key !== 'rowId');
+        html += `<thead><tr>`;
+        headers.forEach(header => {
+          html += `<th>${header}</th>`;
+        });
+        html += `<th>Actions</th></tr></thead>`;
+        
+        // Table rows
+        html += `<tbody>`;
+        data.forEach(row => {
+          html += `<tr>`;
+          headers.forEach(header => {
+            html += `<td>${row[header] || ''}</td>`;
+          });
+          html += `
+            <td class="action-cell">
+              <button class="icon-btn edit-btn" onclick='editRecord(${JSON.stringify(row)})' title="Edit">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="icon-btn delete-btn" onclick="deleteRecord('${row.rowId}')" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>`;
+        });
+        html += `</tbody></table>`;
+        
+        tableContainer.innerHTML = html;
+      } catch (error) {
+        document.getElementById('loader').style.display = 'none';
+        tableContainer.innerHTML = `
+          <div class="no-data">
+            <i class="fas fa-exclamation-circle"></i>
+            <h3>Error Loading Data</h3>
+            <p>Failed to load data. Please check your connection and try again.</p>
+          </div>
+        `;
+      }
+    }
+
+    async function deleteRecord(rowId) {
+      if (!confirm("Are you sure you want to delete this record? This action cannot be undone.")) {
+        return;
+      }
+      
+      const category = document.querySelector('.module-btn.active').getAttribute('data-module');
+      document.getElementById('loader').style.display = 'block';
+      
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ 
+            action: "delete", 
+            category: category, 
+            rowId: rowId 
+          })
+        });
+        
+        const data = await response.json();
+        document.getElementById('loader').style.display = 'none';
+        alert(data.message || "Record deleted successfully");
+        loadData();
+      } catch (error) {
+        document.getElementById('loader').style.display = 'none';
+        alert("Error deleting record: " + error.message);
+      }
+    }
+
+    function editRecord(row) {
+      showForm();
+      document.getElementById('hiddenRowId').value = row.rowId;
+      
+      // Set form values after a short delay to ensure form is rendered
+      setTimeout(() => {
+        const form = document.getElementById('dynamicForm');
+        
+        // Handle transport type field if present
+        if (row.TransportType) {
+          const transportTypeSelect = form.querySelector('[name="TransportType"]');
+          if (transportTypeSelect) {
+            transportTypeSelect.value = row.TransportType;
+            toggleTransportFields(row.TransportType);
+          }
+        }
+        
+        // Set all other fields
+        Object.keys(row).forEach(key => {
+          const input = form.querySelector(`[name="${key}"]`);
+          if (input) input.value = row[key];
+        });
+        
+        // Update form title
+        document.getElementById('form-title').textContent = "Edit " + document.getElementById('hiddenCategory').value + " Record";
+      }, 100);
+    }
+
+    // Initialize the page
+    window.onload = function() {
+      // Set active module in the dropdown (for backward compatibility)
+      document.getElementById('moduleSelect').value = "Geographical Area";
+    };
+  </script>
+</body>
+</html>

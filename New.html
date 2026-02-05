@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Telangana District Dashboard</title>
+  <style>
+    :root {
+      --primary-color: #007bff; /* Telangana Blue */
+      --secondary-color: #28a745;
+      --bg-color: #f4f7f6;
+      --card-bg: #ffffff;
+      --text-color: #333;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 20px;
+      color: var(--text-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 30px;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+    }
+
+    select, button {
+      padding: 12px 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    select { flex-grow: 1; max-width: 400px; }
+    
+    button {
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.3s;
+    }
+
+    .btn-add { background: var(--primary-color); color: white; border: none; }
+    .btn-add:hover { background: #0056b3; }
+    
+    .btn-view { background: #6c757d; color: white; border: none; }
+    .btn-view:hover { background: #545b62; }
+
+    /* Form Styles */
+    #form-section { display: none; animation: fadeIn 0.4s; }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label { font-size: 14px; margin-bottom: 5px; font-weight: 500; }
+    .form-group input, .form-group select { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+    
+    .section-header {
+      grid-column: 1 / -1;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-top: 15px;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 5px;
+    }
+
+    .btn-container { text-align: right; margin-top: 25px; }
+
+    /* Table Styles */
+    #data-section { display: none; overflow-x: auto; margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    th, td { padding: 12px 15px; border-bottom: 1px solid #eee; text-align: left; }
+    th { background: var(--primary-color); color: white; white-space: nowrap; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+    
+    .action-btn { padding: 5px 10px; font-size: 12px; margin-right: 5px; border-radius: 4px; border: none; cursor: pointer; color: white; }
+    .edit-btn { background: #ffc107; color: #333; }
+    .del-btn { background: #dc3545; }
+
+    /* Loading Spinner */
+    .loader { display: none; text-align: center; padding: 20px; font-weight: bold; color: var(--primary-color); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Telangana District Dashboard</h1>
+
+    <div class="controls">
+      <select id="moduleSelect" onchange="resetUI()">
+        <option value="" disabled selected>Select Data Category (1-10)</option>
+        <option value="Geographical Area">1. Geographical Area</option>
+        <option value="Population Data">2. Population Data</option>
+        <option value="Literacy Rate">3. Literacy Rate</option>
+        <option value="Working Population">4. Working Population</option>
+        <option value="Occupation">5. Occupation</option>
+        <option value="Health Infrastructure">6. Health Infrastructure</option>
+        <option value="Education Sector">7. Education Sector</option>
+        <option value="Aasara Pensions">8. Aasara Pensions</option>
+        <option value="Road Infrastructure">9. Road Infrastructure</option>
+        <option value="Transport">10. Transport</option>
+      </select>
+      
+      <button class="btn-add" onclick="showForm()">
+        <span class="material-icons">add_circle</span> Add Data
+      </button>
+      <button class="btn-view" onclick="loadData()">
+        <span class="material-icons">table_view</span> View Data
+      </button>
+    </div>
+
+    <div id="loader" class="loader">Processing... Please wait.</div>
+
+    <div id="form-section">
+      <h3 id="formTitle" style="color:#555;">New Entry</h3>
+      <form id="dynamicForm" onsubmit="handleFormSubmit(event)">
+        <input type="hidden" name="category" id="hiddenCategory">
+        <input type="hidden" name="rowId" id="hiddenRowId">
+
+        <div id="fieldsContainer" class="form-grid">
+          </div>
+
+        <div class="btn-container">
+          <button type="button" onclick="resetUI()" style="background:#ddd; color:#333; border:none; margin-right:10px;">Cancel</button>
+          <button type="submit" class="btn-add">Save Record</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="data-section">
+      <div id="tableContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIGURATION ---
+    const districts = [
+      "Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", 
+      "Jayashankar Bhupalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", 
+      "Kumuram Bheem", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", 
+      "Medchal-Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanpet", 
+      "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", 
+      "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", 
+      "Warangal", "Hanamkonda", "Yadadri Bhuvanagiri"
+    ];
+
+    // Schema Definition
+    const formSchema = {
+      "Geographical Area": ["Revenue Villages", "Revenue Mandals", "Revenue Divisions", "Gram Panchayats"],
+      "Population Data": ["Total Population", "Males", "Females", "Rural", "Urban"],
+      "Literacy Rate": ["Total Literacy", "Male Literacy", "Female Literacy"],
+      "Working Population": ["Total Workers", "Male Workers", "Female Workers"],
+      "Health Infrastructure": ["Health Sub Centers", "Primary Health Centers", "Area Hospitals", "District Hospitals", "Teaching Hospitals"],
+      "Education Sector": [
+        "Primary Schools", "Upper Primary Schools", "High Schools", "Total Schools", 
+        "Model Schools", "KGBV Schools", "Junior Colleges", "Degree Colleges", 
+        "Engineering Colleges", "Pharmacy Colleges", "MBA Colleges", "MCA Colleges", 
+        "B.Ed Colleges", "Law Colleges"
+      ],
+      "Aasara Pensions": ["Old Age", "Disabled", "Widow", "Weavers", "Toddy Tappers", "ART Patients"],
+      "Road Infrastructure": ["State Highways", "Major District Roads", "Rural Roads", "Total Roads"]
+    };
+
+    // Sub-types for Occupation (Requires Total/Male/Female for each)
+    const occupationTypes = ["Cultivators", "Agricultural Labourers", "Household Industries", "Other Workers", "Non Working"];
+
+    // --- UI LOGIC ---
+
+    function resetUI() {
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('data-section').style.display = 'none';
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('dynamicForm').reset();
+      document.getElementById('hiddenRowId').value = "";
+    }
+
+    function showForm() {
+      const category = document.getElementById('moduleSelect').value;
+      if (!category) return alert("Please select a module first.");
+
+      resetUI();
+      document.getElementById('form-section').style.display = 'block';
+      document.getElementById('hiddenCategory').value = category;
+      document.getElementById('formTitle').innerText = "Enter Data: " + category;
+      
+      generateFields(category);
+    }
+
+    function generateFields(category) {
+      const container = document.getElementById('fieldsContainer');
+      let html = '';
+
+      // 1. Common District Dropdown
+      html += `
+        <div class="form-group">
+          <label>District</label>
+          <select name="District" required>
+            <option value="">Select District</option>
+            ${districts.map(d => `<option value="${d}">${d}</option>`).join('')}
+          </select>
+        </div>
+      `;
+
+      // 2. Logic for Standard Modules
+      if (formSchema[category]) {
+        formSchema[category].forEach(field => {
+          html += createInput(field);
+        });
+      }
+      
+      // 3. Logic for Occupation (Complex grouping)
+      else if (category === "Occupation") {
+        occupationTypes.forEach(type => {
+          html += `<div class="section-header">${type}</div>`;
+          html += createInput(`${type} Total`);
+          html += createInput(`${type} Male`);
+          html += createInput(`${type} Female`);
+        });
+      }
+
+      // 4. Logic for Transport (Switchable)
+      else if (category === "Transport") {
+        html += `
+          <div class="section-header" style="margin-top:0;">Transport Type</div>
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <select name="TransportType" onchange="toggleTransport(this.value)" required>
+              <option value="">-- Select Transport Mode --</option>
+              <option value="Road">Road Transport</option>
+              <option value="Railways">Railways</option>
+            </select>
+          </div>
+          
+          <div id="road-fields" style="display:contents; display:none;">
+            ${createInput("RTC Bus Depots")}
+            ${createInput("RTC Fleet of Buses")}
+            ${createInput("Daily Operated Length Kms")}
+          </div>
+
+          <div id="rail-fields" style="display:contents; display:none;">
+            ${createInput("Railway Stations")}
+            ${createInput("Track Length Kms")}
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function createInput(label) {
+      // Create safe variable name from label (remove spaces/special chars)
+      const name = label.replace(/[^a-zA-Z0-9]/g, ""); 
+      return `
+        <div class="form-group">
+          <label>${label}</label>
+          <input type="number" step="any" name="${name}">
+        </div>
+      `;
+    }
+
+    function toggleTransport(type) {
+      document.getElementById('road-fields').style.display = (type === 'Road') ? 'contents' : 'none';
+      document.getElementById('rail-fields').style.display = (type === 'Railways') ? 'contents' : 'none';
+    }
+
+    // --- BACKEND COMMUNICATION ---
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      document.getElementById('loader').style.display = 'block';
+
+      const form = document.getElementById('dynamicForm');
+      const formData = {};
+      
+      // Collect all form data manually
+      new FormData(form).forEach((value, key) => formData[key] = value);
+
+      google.script.run.withSuccessHandler(response => {
+        document.getElementById('loader').style.display = 'none';
+        alert(response.message);
+        if (response.success) {
+          resetUI();
+          loadData(); // Auto-refresh table
+        }
+      }).saveData(formData);
+    }
+
+    function loadData() {
+      const category = document.getElementById('moduleSelect').value;
+      if (!category) return alert("Please select a module first.");
+
+      resetUI();
+      document.getElementById('data-section').style.display = 'block';
+      document.getElementById('loader').style.display = 'block';
+
+      google.script.run.withSuccessHandler(renderTable).getData(category);
+    }
+
+    function renderTable(data) {
+      document.getElementById('loader').style.display = 'none';
+      const container = document.getElementById('tableContainer');
+
+      if (!data || data.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>No records found.</p>";
+        return;
+      }
+
+      // Generate Table Headers dynamically
+      const headers = Object.keys(data[0]).filter(k => k !== 'rowId');
+      
+      let html = `<table><thead><tr>`;
+      headers.forEach(h => html += `<th>${h}</th>`);
+      html += `<th>Actions</th></tr></thead><tbody>`;
+
+      data.forEach(row => {
+        html += `<tr>`;
+        headers.forEach(key => html += `<td>${row[key]}</td>`);
+        // Store row data in Edit button
+        const jsonRow = JSON.stringify(row).replace(/"/g, '&quot;');
+        html += `
+          <td>
+            <button class="action-btn edit-btn" onclick="editRow(${jsonRow})">Edit</button>
+            <button class="action-btn del-btn" onclick="deleteRow('${row.rowId}')">Delete</button>
+          </td>
+        </tr>`;
+      });
+      html += `</tbody></table>`;
+      container.innerHTML = html;
+    }
+
+    // --- EDIT & DELETE ---
+
+    function deleteRow(rowId) {
+      if(!confirm("Are you sure you want to delete this record?")) return;
+      
+      const category = document.getElementById('moduleSelect').value;
+      document.getElementById('loader').style.display = 'block';
+
+      google.script.run.withSuccessHandler(res => {
+        alert(res.message);
+        loadData();
+      }).deleteData(category, rowId);
+    }
+
+    function editRow(row) {
+      // 1. Show Form
+      showForm(); 
+      // 2. Populate ID
+      document.getElementById('hiddenRowId').value = row.rowId;
+      
+      // 3. Populate Fields (Wait briefly for DOM to generate)
+      setTimeout(() => {
+        const form = document.getElementById('dynamicForm');
+        // Handle Transport Special Logic
+        if(row.TransportType) {
+           const select = form.querySelector('[name="TransportType"]');
+           if(select) {
+             select.value = row.TransportType;
+             toggleTransport(row.TransportType);
+           }
+        }
+        
+        // Loop through row data and set inputs
+        Object.keys(row).forEach(key => {
+          const input = form.querySelector(`[name="${key}"]`);
+          if (input) input.value = row[key];
+        });
+        
+        document.getElementById('formTitle').innerText = "Edit Entry";
+      }, 100);
+    }
+
+  </script>
+</body>
+</html>

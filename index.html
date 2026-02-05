@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telangana PHC Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="controls">
+        <h3>Telangana Dashboard</h3>
+        <p>1. Upload PHC_DATA_TS.csv:</p>
+        <input type="file" id="csvFile" accept=".csv" />
+        
+        <p>2. Filter Districts:</p>
+        <select id="districtSelect" multiple>
+            <option value="all" selected>All Districts</option>
+        </select>
+        <p><small>Hold Ctrl/Cmd to select multiple</small></p>
+    </div>
+
+    <div id="phcTableContainer" class="draggable">
+        <div id="dragHandle">District PHC Data (Drag Me)</div>
+        <div class="table-wrapper">
+            <table id="phcTable">
+                <thead>
+                    <tr>
+                        <th>Mandal</th>
+                        <th>PHC Name</th>
+                    </tr>
+                </thead>
+                <tbody id="phcTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
