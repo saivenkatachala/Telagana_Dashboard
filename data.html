@@ -685,6 +685,37 @@
     .material-icons {
       vertical-align: middle;
     }
+
+
+
+
+    /* ===== HEADER ACTIONS ===== */
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.map-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(to right, #2e7d32, #4caf50);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+}
+
+.map-btn:hover {
+  background: linear-gradient(to right, #4caf50, #2e7d32);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4);
+  color: white;
+}
   </style>
 </head>
 <body>
@@ -701,10 +732,15 @@
           <p>Government of Telangana | Data Management System</p>
         </div>
       </div>
-      <div class="gov-badge">
+      <!-- <div class="gov-badge">
         <i class="fas fa-shield-alt"></i>
         Official Government Portal
-      </div>
+      </div> -->
+      <div class="header-actions">
+  <a href="index.html" class="map-btn">
+    <i class="fas fa-map-marked-alt"></i> View Live Map
+  </a>
+</div>
     </div>
   </header>
 
@@ -1265,5 +1301,4 @@
     };
   </script>
 </body>
-
 </html>
