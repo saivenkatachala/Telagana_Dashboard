@@ -17,23 +17,13 @@
         </div>
         
         <div class="mode-switch">
-            <button class="active" onclick="switchMode('entry')">Data Entry</button>
-            <button onclick="switchMode('map')">Map View</button>
+            <button onclick="window.location.href='2.html'">Data Entry</button>
+            <button class="active" onclick="switchMode('map')">Map View</button>
         </div>
 
         <hr>
 
-        <div id="entry-controls" class="control-group">
-            <h3><span class="material-icons">edit</span> Data Entry</h3>
-            <label>Select Module</label>
-            <select id="entryCategory" onchange="initEntryForm()">
-                <option value="" disabled selected>Select Category (1-10)</option>
-            </select>
-            <button class="btn-primary" onclick="showEntryForm()">+ Add New Record</button>
-            <button class="btn-secondary" onclick="window.location.href='del.html'">Add Data</button>
-        </div>
-
-        <div id="map-controls" class="control-group" style="display:none;">
+        <div id="map-controls" class="control-group">
             <h3><span class="material-icons">map</span> Visualization</h3>
             
             <label>1. Select Module</label>
@@ -46,43 +36,27 @@
                 <option value="all">View Complete Data</option>
             </select>
 
-            <button class="btn-secondary" onclick="showTable()">
-                <span class="material-icons">table_view</span> Open Data Table
+            <button class="btn-primary" onclick="showTable()">
+                <span class="material-icons">table_view</span> View Map Data
+            </button>
+            
+            <button class="btn-secondary" onclick="resetMap()">
+                <span class="material-icons">restart_alt</span> Reset Map View
             </button>
         </div>
     </div>
 
     <div class="main-content">
-        
-        <div id="entry-screen">
-            <div id="form-card" class="card" style="display:none;">
-                <h3 id="form-title">New Entry</h3>
-                <form id="dataForm" onsubmit="handleFormSubmit(event)">
-                    <input type="hidden" name="category" id="hiddenCategory">
-                    <input type="hidden" name="rowId" id="hiddenRowId">
-                    <div id="form-fields" class="form-grid"></div>
-                    <div class="form-actions">
-                        <button type="button" onclick="hideEntryForm()" class="btn-cancel">Cancel</button>
-                        <button type="submit" class="btn-save">Save Record</button>
-                    </div>
-                </form>
-            </div>
-            
-            <div id="entry-list" class="card">
-                <h4><span class="material-icons">list</span> Existing Records</h4>
-                <div id="entry-table-wrapper" class="table-scroll-container">
-                    <p class="placeholder-text">Select a category to view or edit data.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="map-screen" style="display:none;">
+        <div id="map-screen">
             <div id="map"></div>
             
             <div id="floating-table" class="draggable-panel">
                 <div class="panel-header" id="drag-handle">
                     <span id="table-title">Data Viewer</span>
-                    <span class="close-btn" onclick="closeTable()">×</span>
+                    <div class="header-actions">
+                        <span class="reset-icon" onclick="resetMap()" title="Reset View">↺</span>
+                        <span class="close-btn" onclick="closeTable()">×</span>
+                    </div>
                 </div>
                 <div class="table-scroll-container">
                     <table id="map-data-table">
